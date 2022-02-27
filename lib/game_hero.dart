@@ -1,8 +1,10 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:game_island/player_sprite_sheet.dart';
 import 'package:game_island/strings.dart';
 
-class GameHero extends SimplePlayer with ObjectCollision {
+class GameHero extends SimplePlayer with ObjectCollision, Lighting {
   GameHero({
     required Vector2 position,
   }) : super(
@@ -24,20 +26,77 @@ class GameHero extends SimplePlayer with ObjectCollision {
         ),
       ],
     ));
+
+    setupLighting(LightingConfig(
+      radius: tileSize * 1.5,
+      color: Colors.transparent,
+    ));
   }
+
+  bool canMove = true;
 
   @override
   void joystickAction(JoystickActionEvent event) {
-    if (event.event == ActionEvent.DOWN && event.id == 1) {
+    if (event.event == ActionEvent.DOWN &&
+        (event.id == 1 || event.id == LogicalKeyboardKey.space.keyId)) {
       _executeAttack();
     }
     super.joystickAction(event);
   }
 
   @override
+  void joystickChangeDirectional(JoystickDirectionalEvent event) {
+    if (canMove) {
+      super.joystickChangeDirectional(event);
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    drawDefaultLifeBar(
+      canvas,
+      borderWidth: 2,
+      height: 2,
+      align: const Offset(0, -5),
+    );
+    super.render(canvas);
+  }
+
+  @override
   void die() {
-    removeFromParent();
+    if (lastDirection == Direction.left) {
+      animation?.playOnce(
+        PlayerSpriteSheet().dieLeft,
+        runToTheEnd: true,
+        onFinish: removeFromParent,
+      );
+      return;
+    }
+    animation?.playOnce(
+      PlayerSpriteSheet().dieRight,
+      runToTheEnd: true,
+      onFinish: removeFromParent,
+    );
     super.die();
+  }
+
+  @override
+  void receiveDamage(double damage, from) {
+    canMove = false;
+    if (lastDirection == Direction.left) {
+      animation?.playOnce(
+        PlayerSpriteSheet().receiveDamageLeft,
+        runToTheEnd: true,
+        onFinish: () => canMove = true,
+      );
+      return;
+    }
+    animation?.playOnce(
+      PlayerSpriteSheet().receiveDamageRight,
+      runToTheEnd: true,
+      onFinish: () => canMove = true,
+    );
+    super.receiveDamage(damage, from);
   }
 
   void _executeAttack() {

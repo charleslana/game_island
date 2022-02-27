@@ -60,4 +60,24 @@ class EnemySpriteSheet {
           texturePosition: Vector2(96, 96),
         ),
       );
+
+  Future<SpriteAnimation> get dieRight => SpriteAnimation.load(
+        'orc_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(0, 120),
+        ),
+      );
+
+  Future<SpriteAnimation> get dieLeft => SpriteAnimation.load(
+        'orc_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(96, 120),
+        ),
+      );
 }

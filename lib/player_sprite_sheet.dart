@@ -41,6 +41,46 @@ class PlayerSpriteSheet {
         ),
       );
 
+  Future<SpriteAnimation> get receiveDamageRight => SpriteAnimation.load(
+        'fHero_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(0, 96),
+        ),
+      );
+
+  Future<SpriteAnimation> get receiveDamageLeft => SpriteAnimation.load(
+        'fHero_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(96, 96),
+        ),
+      );
+
+  Future<SpriteAnimation> get dieRight => SpriteAnimation.load(
+        'fHero_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(0, 120),
+        ),
+      );
+
+  Future<SpriteAnimation> get dieLeft => SpriteAnimation.load(
+        'fHero_.png',
+        SpriteAnimationData.sequenced(
+          amount: 4,
+          stepTime: 0.15,
+          textureSize: Vector2(24, 24),
+          texturePosition: Vector2(96, 120),
+        ),
+      );
+
   Future<SpriteAnimation> get attackLeft => SpriteAnimation.load(
         'atack_effect_left.png',
         SpriteAnimationData.sequenced(

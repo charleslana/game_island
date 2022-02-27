@@ -56,7 +56,19 @@ class GameEnemy extends SimpleEnemy with ObjectCollision {
 
   @override
   void die() {
-    removeFromParent();
+    if (lastDirection == Direction.left) {
+      animation?.playOnce(
+        EnemySpriteSheet().dieLeft,
+        runToTheEnd: true,
+        onFinish: removeFromParent,
+      );
+      return;
+    }
+    animation?.playOnce(
+      EnemySpriteSheet().dieRight,
+      runToTheEnd: true,
+      onFinish: removeFromParent,
+    );
     super.die();
   }
 
