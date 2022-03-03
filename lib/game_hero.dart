@@ -30,6 +30,7 @@ class GameHero extends SimplePlayer with ObjectCollision, Lighting {
     setupLighting(LightingConfig(
       radius: tileSize * 1.5,
       color: Colors.transparent,
+      blurBorder: tileSize * 1.5,
     ));
   }
 
@@ -49,17 +50,6 @@ class GameHero extends SimplePlayer with ObjectCollision, Lighting {
     if (canMove) {
       super.joystickChangeDirectional(event);
     }
-  }
-
-  @override
-  void render(Canvas canvas) {
-    drawDefaultLifeBar(
-      canvas,
-      borderWidth: 2,
-      height: 2,
-      align: const Offset(0, -5),
-    );
-    super.render(canvas);
   }
 
   @override
